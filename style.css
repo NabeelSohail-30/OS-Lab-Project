@@ -206,7 +206,8 @@ header nav ul li a:hover {
     color: var(--primary_dark);
 }
 
-#processes {
+#processes,
+#input {
     width: 100%;
     padding: 20px;
     border: none;
