@@ -134,8 +134,74 @@ header nav ul li a:hover {
     color: var(--white);
 }
 
+/* --------------- Footer -----------------*/
 
-/* -------------------- Round Robbin -------------------- */
+footer {
+    width: 100%;
+    background-color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    line-height: normal;
+    text-align: center;
+}
+
+footer .footer-text {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--white);
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+}
+
+footer .footer-text:hover {
+    color: var(--lightest);
+}
+
+footer .copyright {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--white);
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+    margin: 10px auto;
+}
+
+footer .social-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 26px;
+}
+
+footer .social-links ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+footer .social-links ul li {
+    list-style: none;
+    margin: 0 1px;
+}
+
+footer .social-links ul li a {
+    text-decoration: none;
+    color: var(--white);
+    padding: 8px 18px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    border-radius: 12px;
+}
+
+footer .social-links ul li a:hover {
+    background-color: var(--white);
+    color: var(--primary_dark);
+}
+
+/* -------------------- Others -------------------- */
 
 .wrapper {
     height: fit-content;
