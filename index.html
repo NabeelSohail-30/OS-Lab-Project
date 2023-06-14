@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OS Lab Project</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            <span>OS Lab Project</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="main-container">
+        <div class="card">
+            <div class="card-title">Round Robbin</div>
+            <div class="card-text">
+                <p>Round-robin (RR) is one of the algorithms employed by process and network schedulers in computing. As
+                    the term is generally used, time slices (also known as time quanta) are assigned to each process in
+                    equal portions and in circular order, handling all processes without priority (also known as cyclic
+                    executive). Round-robin scheduling is simple, easy to implement, and starvation-free. Round-robin
+                    scheduling can also be applied to other scheduling problems, such as data packet scheduling in
+                    computer networks. It is an operating system concept.</p>
+            </div>
+            <div class="card-btn"><a href="round.html">Click Here</a></div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">First Fit</div>
+            <div class="card-text">
+                <p>First-fit is a memory allocation algorithm using a linked list data structure. It sequentially
+                    traverses the list of available memory blocks until it finds one that is large enough to satisfy
+                    the request. It then allocates the process to that memory block. The size of the allocated block is
+                    then reduced by the amount requested, and the address of the newly allocated block is returned to
+                    the process. If the process does not fit in any of the available blocks, it is added to the list of
+                    waiting processes. When a process completes, it releases its memory block, which is then merged
+                    with any adjacent free blocks in memory.</p>
+            </div>
+            <div class="card-btn"><a href="#">Click Here</a></div>
+        </div>
+    </div>
+
+    <script src="app.js" defer></script>
+</body>
+
+</html>

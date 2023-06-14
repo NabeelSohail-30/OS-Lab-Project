@@ -1,0 +1,283 @@
+:root {
+    --primary_dark: #343090;
+    --primary: #5f59f7;
+    --primary_light: #5f59f7;
+    --lightest: #44c2fd;
+    --secondary: #8c61ff;
+    --white: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: var(--primary_dark);
+    color: var(--white);
+}
+
+/* ------------ Header ------------- */
+
+header {
+    width: 100%;
+    background-color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    line-height: normal;
+}
+
+header .logo span {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--white);
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+}
+
+header .logo span:hover {
+    color: var(--lightest);
+}
+
+header nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+header nav ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+header nav ul li {
+    list-style: none;
+    margin: 0 2px;
+}
+
+header nav ul li a {
+    text-decoration: none;
+    color: var(--white);
+    padding: 8px 18px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    border-radius: 12px;
+}
+
+header nav ul li a:hover {
+    background-color: var(--white);
+    color: var(--primary_dark);
+}
+
+
+/* ------------ Main ------------- */
+
+.main-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.card {
+    background-color: var(--primary);
+    border-radius: 10px;
+    margin: 0px 20px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    width: 480px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card-title {
+    font-size: 2rem;
+}
+
+.card-text {
+    font-size: 1.2rem;
+    margin: 40px auto;
+    text-align: center;
+}
+
+.card-btn a {
+    background-color: var(--secondary);
+    text-decoration: none !important;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    color: var(--white);
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.card-btn a:hover {
+    background-color: var(--lightest);
+    color: var(--white);
+}
+
+
+/* -------------------- Round Robbin -------------------- */
+
+.wrapper {
+    height: fit-content;
+    width: max-content;
+    background-color: var(--white);
+    margin: 100px auto;
+    padding: 40px;
+}
+
+.wrapper form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.wrapper .heading {
+    font-size: 2rem;
+    text-align: center;
+    background-color: var(--lightest);
+    padding: 10px 40px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: var(--primary_dark);
+}
+
+.wrapper form .row {
+    width: 100%;
+}
+
+.wrapper form label {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--primary_dark);
+}
+
+.wrapper form input {
+    width: 100%;
+    margin: 20px auto;
+    border: none;
+    border-bottom: 1px solid var(--primary);
+    outline: none;
+    font-size: 1.2rem;
+}
+
+.wrapper form input:focus {
+    border-bottom: 1px solid var(--primary_light);
+}
+
+.wrapper form .btn {
+    background-color: var(--secondary);
+    text-decoration: none !important;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    color: var(--white);
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    margin: 20px auto;
+}
+
+.wrapper form .btn:hover {
+    background-color: var(--lightest);
+    color: var(--primary_dark);
+}
+
+#processes {
+    width: 100%;
+    padding: 20px;
+    border: none;
+    border: 1px solid var(--primary);
+    outline: none;
+    font-size: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    display: none;
+}
+
+#processes input,
+#processes button {
+    margin: 10px auto;
+}
+
+#result {
+    margin-top: 20px;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--lightest);
+}
+
+#result table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#result table thead {
+    background-color: var(--secondary);
+    color: var(--white);
+}
+
+#result table th {
+    padding: 20px;
+    text-align: center;
+    border: 1px solid var(--primary_dark);
+    font-size: large;
+}
+
+#result table td {
+    padding: 8px 6px;
+    text-align: center;
+    border: 1px solid var(--primary_dark);
+}
+
+#result table tr:hover {
+    color: var(--primary_dark);
+    font-weight: bold;
+}
+
+#result table tbody tr:nth-child(even) {
+    background-color: var(--primary_light);
+}
+
+#result table tfoot {
+    background-color: var(--secondary);
+    color: var(--white);
+}
+
+#result table tfoot tr td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid var(--primary_dark);
+    font-size: large;
+}
+
+#result table tfoot tr td:first-child {
+    font-weight: bold;
+}
