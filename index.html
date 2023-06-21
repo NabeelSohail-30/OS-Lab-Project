@@ -52,14 +52,19 @@
         </div>
 
         <div class="card">
-            <div class="card-title">Banker's Algorithm</div>
+            <div class="card-title">Best Fit</div>
             <div class="card-text">
-                <p>The banker's algorithm is a resource allocation and deadlock avoidance algorithm that tests for
-                    safety by simulating the allocation of predetermined maximum possible amounts of all resources, and
-                    then makes a "s-state" check to test for possible deadlock conditions for all other pending
-                    activities, before deciding whether allocation should be allowed to continue.</p>
+                <p>
+                    Best-fit is a memory allocation algorithm using a linked list data structure. It sequentially
+                    traverses the list of available memory blocks until it finds one that is large enough to satisfy
+                    the request. It then allocates the process to that memory block. The size of the allocated block is
+                    then reduced by the amount requested, and the address of the newly allocated block is returned to
+                    the process. If the process does not fit in any of the available blocks, it is added to the list of
+                    waiting processes. When a process completes, it releases its memory block, which is then merged
+                    with any adjacent free blocks in memory.
+                </p>
             </div>
-            <div class="card-btn"><a href="banker.html">Click Here</a></div>
+            <div class="card-btn"><a href="best.html">Click Here</a></div>
         </div>
     </div>
 
