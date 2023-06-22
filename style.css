@@ -87,6 +87,15 @@ header nav ul li a:hover {
     height: 100vh;
 }
 
+main {
+    width: 100%;
+    margin: 40px auto;
+}
+
+.row {
+    margin: 30px auto;
+}
+
 .card {
     background-color: var(--primary);
     border-radius: 10px;

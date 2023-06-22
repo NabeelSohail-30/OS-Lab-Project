@@ -386,3 +386,140 @@ function resetBestFit() {
     const memoryBlocks = document.getElementById("memoryBlocks");
     memoryBlocks.value = "";
 }
+
+function createInputFieldsWF() {
+    const numOfProcesses = document.querySelector("#numOfProcessors").value;
+    const memoryBlocks = document.querySelector("#memoryBlocks").value;
+    const inputDiv = document.getElementById("input");
+
+    inputDiv.style.display = "flex";
+
+    if (numOfProcesses > 0 && numOfProcesses <= 10) {
+        for (let i = 0; i < numOfProcesses; i++) {
+            const input = document.createElement("input");
+            input.placeholder = `Process Size for Process ${i + 1}`;
+            input.type = "number";
+            input.classList = "process";
+            inputDiv.appendChild(input);
+            inputDiv.appendChild(document.createElement("br"));
+        }
+    } else {
+        alert("Number of Processes must be between 1 and 10");
+        return;
+    }
+
+    if (memoryBlocks > 1) {
+        for (let i = 0; i < memoryBlocks; i++) {
+            const inputBlock = document.createElement("input");
+            inputBlock.placeholder = `Memory Size for Block ${i + 1}`;
+            inputBlock.type = "number";
+            inputBlock.classList = "block";
+            inputDiv.appendChild(inputBlock);
+            inputDiv.appendChild(document.createElement("br"));
+        }
+    }
+
+    const calculateBtn = document.createElement("button");
+    calculateBtn.innerHTML = "Calculate";
+    calculateBtn.classList = "btn";
+    calculateBtn.onclick = () => {
+        calculateWorstFit();
+    };
+    inputDiv.appendChild(calculateBtn);
+    document.querySelector("#numOfProcessors").value = "";
+    document.querySelector("#memoryBlocks").value = "";
+}
+
+function calculateWorstFit() {
+    const processes = document.querySelectorAll("#input .process");
+    const blocks = document.querySelectorAll("#input .block");
+
+    const table = document.createElement("table");
+    table.innerHTML = `
+      <thead>
+        <tr>
+          <th>Process No.</th>
+          <th>Process Size</th>
+          <th>Allocated Block Size</th>
+          <th>Allocation Status</th>
+        </tr>
+      </thead>
+      <tbody id="result-body"></tbody>
+      <tfoot id="result-footer"></tfoot>
+    `;
+
+    const resultBody = table.querySelector("#result-body");
+    const resultFooter = table.querySelector("#result-footer");
+    const allocatedBlocks = new Map();
+
+    for (let i = 0; i < processes.length; i++) {
+        const processSize = parseInt(processes[i].value);
+        let allocatedBlockSize = "-";
+        let allocationStatus = "Not Allocated";
+        let worstFitIndex = -1;
+        let worstFitSize = -Infinity;
+
+        for (let j = 0; j < blocks.length; j++) {
+            const blockSize = parseInt(blocks[j].value);
+
+            if (!allocatedBlocks.has(j) && blockSize >= processSize && blockSize > worstFitSize) {
+                worstFitIndex = j;
+                worstFitSize = blockSize;
+            }
+        }
+
+        if (worstFitIndex !== -1) {
+            allocatedBlocks.set(worstFitIndex, true);
+            allocatedBlockSize = blocks[worstFitIndex].value;
+            allocationStatus = "Allocated";
+        }
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+        <td>${i + 1}</td>
+        <td>${processSize}</td>
+        <td>${allocatedBlockSize}</td>
+        <td>${allocationStatus}</td>
+      `;
+        resultBody.appendChild(row);
+    }
+
+    const remainingBlocks = [...blocks].filter((block, index) => !allocatedBlocks.has(index));
+    if (remainingBlocks.length > 0) {
+        const remainingRow = document.createElement("tr");
+        remainingRow.innerHTML = `
+        <td colspan="4"><strong>Remaining Blocks (Not Allocated)</strong></td>
+      `;
+        resultFooter.appendChild(remainingRow);
+
+        remainingBlocks.forEach((block, index) => {
+            const blockSize = parseInt(block.value);
+            const remainingRow = document.createElement("tr");
+            remainingRow.innerHTML = `
+          <td colspan="2">Block ${index + 1}</td>
+          <td>${blockSize}</td>
+          <td>Not Allocated</td>
+        `;
+            resultFooter.appendChild(remainingRow);
+        });
+    }
+
+    const resultDiv = document.getElementById("result");
+    resultDiv.innerHTML = "";
+    resultDiv.appendChild(table);
+
+    const inputDiv = document.getElementById("input");
+    inputDiv.style.display = "none";
+}
+
+function resetWorstFit() {
+    const resultDiv = document.getElementById("result");
+    resultDiv.innerHTML = "";
+    const input = document.getElementById("input");
+    input.innerHTML = "";
+    input.style.display = "none";
+    const numOfProcessors = document.getElementById("numOfProcessors");
+    numOfProcessors.value = "";
+    const memoryBlocks = document.getElementById("memoryBlocks");
+    memoryBlocks.value = "";
+}
