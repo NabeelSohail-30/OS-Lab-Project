@@ -523,3 +523,126 @@ function resetWorstFit() {
     const memoryBlocks = document.getElementById("memoryBlocks");
     memoryBlocks.value = "";
 }
+
+function createInputFieldsFCFS() {
+    const processes = document.querySelector("#numOfProcessors").value;
+    const processesDiv = document.getElementById("processes");
+
+    processesDiv.style.display = "flex";
+
+    console.log(processes);
+
+    if (processes > 0 && processes <= 10) {
+        for (let i = 0; i < processes; i++) {
+            const input = document.createElement("input");
+            input.placeholder = `Arrival Time for Process ${i + 1}`
+            input.type = "number";
+            processesDiv.appendChild(input);
+            processesDiv.appendChild(document.createElement("br"));
+            const input2 = document.createElement("input");
+            input2.placeholder = `Burst Time for Process ${i + 1}`
+            input2.type = "number";
+            processesDiv.appendChild(input2);
+            processesDiv.appendChild(document.createElement("br"));
+        }
+    } else {
+        alert("Please enter a number between 1 and 10.");
+        return;
+    }
+
+    const calculateBtn = document.createElement("button");
+    calculateBtn.innerHTML = "Calculate";
+    calculateBtn.classList = "btn";
+    calculateBtn.onclick = () => {
+        calculateFCFS();
+    };
+    processesDiv.appendChild(calculateBtn);
+    document.querySelector("#numOfProcessors").value = "";
+}
+
+function calculateFCFS() {
+    const processes = document.querySelectorAll("#processes input[type='number']");
+
+    const table = document.createElement("table");
+    table.innerHTML = `
+        <thead>
+            <tr>
+                <th>Process</th>
+                <th>Arrival Time</th>
+                <th>Burst Time</th>
+                <th>Completion Time</th>
+                <th>Turnaround Time</th>
+                <th>Waiting Time</th>
+            </tr>
+        </thead>
+        <tbody id="result-body"></tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">Average</td>
+                <td colspan="1">Completion Time</td>
+                <td id="avg-completion-time">0</td>
+                <td id="avg-turnaround-time">0</td>
+                <td id="avg-waiting-time">0</td>
+            </tr>
+        </tfoot>
+    `;
+
+    let totalCompletionTime = 0;
+    let totalTurnaroundTime = 0;
+    let totalWaitTime = 0;
+
+    const resultBody = table.querySelector("#result-body");
+
+    for (let i = 0; i < processes.length / 2; i++) {
+        const arrivalTime = parseInt(processes[i * 2].value);
+        const burstTime = parseInt(processes[i * 2 + 1].value);
+        const completionTime = Math.max(totalCompletionTime, arrivalTime) + burstTime;
+        const turnaroundTime = completionTime - arrivalTime;
+        const waitTime = turnaroundTime - burstTime;
+
+        totalCompletionTime = completionTime;
+        totalTurnaroundTime += turnaroundTime;
+        totalWaitTime += waitTime;
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${i + 1}</td>
+          <td>${arrivalTime}</td>
+          <td>${burstTime}</td>
+          <td>${completionTime}</td>
+          <td>${turnaroundTime}</td>
+          <td>${waitTime}</td>
+      `;
+        resultBody.appendChild(row);
+    }
+
+    const avgCompletionTime = totalCompletionTime / (processes.length / 2);
+    const avgTurnaroundTime = totalTurnaroundTime / (processes.length / 2);
+    const avgWaitTime = totalWaitTime / (processes.length / 2);
+
+    const avgCompletionTimeCell = table.querySelector("#avg-completion-time");
+    const avgTurnaroundTimeCell = table.querySelector("#avg-turnaround-time");
+    const avgWaitTimeCell = table.querySelector("#avg-waiting-time");
+
+    avgCompletionTimeCell.textContent = avgCompletionTime.toFixed(2);
+    avgTurnaroundTimeCell.textContent = avgTurnaroundTime.toFixed(2);
+    avgWaitTimeCell.textContent = avgWaitTime.toFixed(2);
+
+    const resultDiv = document.getElementById("result");
+    resultDiv.innerHTML = "";
+    resultDiv.appendChild(table);
+
+    const processDiv = document.getElementById("processes");
+    processDiv.style.display = "none";
+}
+
+
+function resetFCFS() {
+    const resultDiv = document.getElementById("result");
+    resultDiv.innerHTML = "";
+    const processDiv = document.getElementById("processes");
+    processDiv.innerHTML = "";
+    processDiv.style.display = "none";
+    const numOfProcessors = document.getElementById("numOfProcessors");
+    numOfProcessors.value = "";
+}
