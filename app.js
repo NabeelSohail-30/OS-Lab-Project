@@ -561,80 +561,123 @@ function createInputFieldsFCFS() {
 }
 
 function calculateFCFS() {
-    const processes = document.querySelectorAll("#processes input[type='number']");
+    const processesDiv = document.getElementById("processes");
+    const inputs = processesDiv.getElementsByTagName("input");
+    const numOfInputs = inputs.length;
 
-    const table = document.createElement("table");
-    table.innerHTML = `
-        <thead>
-            <tr>
-                <th>Process</th>
-                <th>Arrival Time</th>
-                <th>Burst Time</th>
-                <th>Completion Time</th>
-                <th>Turnaround Time</th>
-                <th>Waiting Time</th>
-            </tr>
-        </thead>
-        <tbody id="result-body"></tbody>
-        <tfoot>
-            <tr>
-                <td colspan="2">Average</td>
-                <td colspan="1">Completion Time</td>
-                <td id="avg-completion-time">0</td>
-                <td id="avg-turnaround-time">0</td>
-                <td id="avg-waiting-time">0</td>
-            </tr>
-        </tfoot>
-    `;
+    const processDetails = [];
 
-    let totalCompletionTime = 0;
-    let totalTurnaroundTime = 0;
-    let totalWaitTime = 0;
-
-    const resultBody = table.querySelector("#result-body");
-
-    for (let i = 0; i < processes.length / 2; i++) {
-        const arrivalTime = parseInt(processes[i * 2].value);
-        const burstTime = parseInt(processes[i * 2 + 1].value);
-        const completionTime = Math.max(totalCompletionTime, arrivalTime) + burstTime;
-        const turnaroundTime = completionTime - arrivalTime;
-        const waitTime = turnaroundTime - burstTime;
-
-        totalCompletionTime = completionTime;
-        totalTurnaroundTime += turnaroundTime;
-        totalWaitTime += waitTime;
-
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${i + 1}</td>
-          <td>${arrivalTime}</td>
-          <td>${burstTime}</td>
-          <td>${completionTime}</td>
-          <td>${turnaroundTime}</td>
-          <td>${waitTime}</td>
-      `;
-        resultBody.appendChild(row);
+    // Retrieve the user input values
+    for (let i = 0; i < numOfInputs; i += 2) {
+        const arrivalTime = parseInt(inputs[i].value);
+        const burstTime = parseInt(inputs[i + 1].value);
+        processDetails.push({ arrivalTime, burstTime });
     }
 
-    const avgCompletionTime = totalCompletionTime / (processes.length / 2);
-    const avgTurnaroundTime = totalTurnaroundTime / (processes.length / 2);
-    const avgWaitTime = totalWaitTime / (processes.length / 2);
+    // Sort the processes based on arrival time
+    processDetails.sort((a, b) => a.arrivalTime - b.arrivalTime);
 
-    const avgCompletionTimeCell = table.querySelector("#avg-completion-time");
-    const avgTurnaroundTimeCell = table.querySelector("#avg-turnaround-time");
-    const avgWaitTimeCell = table.querySelector("#avg-waiting-time");
+    const table = document.createElement("table");
+    const thead = document.createElement("thead");
+    const tbody = document.createElement("tbody");
+    const tfoot = document.createElement("tfoot");
+    const resultBody = document.getElementById("result-body");
+
+    table.appendChild(thead);
+    table.appendChild(tbody);
+    table.appendChild(tfoot);
+    resultBody.appendChild(table);
+
+    // Create table header
+    const headerRow = document.createElement("tr");
+    const headers = ["Process", "Arrival Time", "Burst Time", "Completion Time", "Turnaround Time", "Waiting Time"];
+
+    for (let i = 0; i < headers.length; i++) {
+        const headerCell = document.createElement("th");
+        headerCell.textContent = headers[i];
+        headerRow.appendChild(headerCell);
+    }
+
+    thead.appendChild(headerRow);
+
+    let completionTimeSum = 0;
+    let turnaroundTimeSum = 0;
+    let waitingTimeSum = 0;
+
+    // Calculate completion time, turnaround time, and waiting time for each process
+    for (let i = 0; i < processDetails.length; i++) {
+        const process = processDetails[i];
+        const completionTime = Math.max(completionTimeSum, process.arrivalTime) + process.burstTime;
+        const turnaroundTime = completionTime - process.arrivalTime;
+        const waitingTime = turnaroundTime - process.burstTime;
+
+        completionTimeSum = completionTime;
+        turnaroundTimeSum += turnaroundTime;
+        waitingTimeSum += waitingTime;
+
+        // Create table row for each process
+        const row = document.createElement("tr");
+        const processCell = document.createElement("td");
+        const arrivalCell = document.createElement("td");
+        const burstCell = document.createElement("td");
+        const completionCell = document.createElement("td");
+        const turnaroundCell = document.createElement("td");
+        const waitingCell = document.createElement("td");
+
+        processCell.textContent = i + 1;
+        arrivalCell.textContent = process.arrivalTime;
+        burstCell.textContent = process.burstTime;
+        completionCell.textContent = completionTime;
+        turnaroundCell.textContent = turnaroundTime;
+        waitingCell.textContent = waitingTime;
+
+        row.appendChild(processCell);
+        row.appendChild(arrivalCell);
+        row.appendChild(burstCell);
+        row.appendChild(completionCell);
+        row.appendChild(turnaroundCell);
+        row.appendChild(waitingCell);
+
+        tbody.appendChild(row);
+    }
+
+    const avgCompletionTime = completionTimeSum / processDetails.length;
+    const avgTurnaroundTime = turnaroundTimeSum / processDetails.length;
+    const avgWaitingTime = waitingTimeSum / processDetails.length;
+
+    // Create table footer
+    const footerRow = document.createElement("tr");
+    const avgCompletionCell = document.createElement("td");
+    const avgTurnaroundCell = document.createElement("td");
+    const avgWaitingCell = document.createElement("td");
+
+    avgCompletionCell.textContent = "Average";
+    avgTurnaroundCell.colSpan = 1;
+    avgTurnaroundCell.textContent = "Completion Time";
+    avgWaitingCell.textContent = avgCompletionTime.toFixed(2);
+
+    const avgCompletionTimeCell = document.createElement("td");
+    const avgTurnaroundTimeCell = document.createElement("td");
+    const avgWaitingTimeCell = document.createElement("td");
+
+    avgCompletionTimeCell.id = "avg-completion-time";
+    avgTurnaroundTimeCell.id = "avg-turnaround-time";
+    avgWaitingTimeCell.id = "avg-waiting-time";
 
     avgCompletionTimeCell.textContent = avgCompletionTime.toFixed(2);
     avgTurnaroundTimeCell.textContent = avgTurnaroundTime.toFixed(2);
-    avgWaitTimeCell.textContent = avgWaitTime.toFixed(2);
+    avgWaitingTimeCell.textContent = avgWaitingTime.toFixed(2);
 
-    const resultDiv = document.getElementById("result");
-    resultDiv.innerHTML = "";
-    resultDiv.appendChild(table);
+    footerRow.appendChild(avgCompletionCell);
+    footerRow.appendChild(avgTurnaroundCell);
+    footerRow.appendChild(avgWaitingCell);
+    footerRow.appendChild(avgCompletionTimeCell);
+    footerRow.appendChild(avgTurnaroundTimeCell);
+    footerRow.appendChild(avgWaitingTimeCell);
 
-    const processDiv = document.getElementById("processes");
-    processDiv.style.display = "none";
+    tfoot.appendChild(footerRow);
 }
+
 
 
 function resetFCFS() {
